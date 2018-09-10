@@ -6,15 +6,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import java.util.ArrayList;
 
 @Controller
 public class Home {
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String aaa() {
+    public String index() {
         return "index";
     }
+
+    @RequestMapping(value = "/json", method = RequestMethod.GET)
+    public ModelAndView json() {
+        ModelAndView mv = new ModelAndView();
+        mv.setView(new MappingJackson2JsonView());
+        mv.addObject("name", "hi");
+        mv.addObject("age", "99");
+        return mv;
+    }
+
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody
@@ -36,7 +47,7 @@ public class Home {
 
 
     @RequestMapping(value = "/userself")
-    public ModelAndView index() {
+    public ModelAndView userself() {
         ModelAndView modelAndView = new ModelAndView("myname");
         modelAndView.addObject("name", "测试页面");
         modelAndView.addObject("nihao", "你好，");
