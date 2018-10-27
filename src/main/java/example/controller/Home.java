@@ -1,6 +1,9 @@
 package example.controller;
 
+import example.mapper.RoleMapper;
 import example.pojo.People;
+import example.pojo.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,11 +21,23 @@ public class Home {
     }
 
     @RequestMapping(value = "/json", method = RequestMethod.GET)
-    public ModelAndView json() {
+    public ModelAndView json(String name) {
         ModelAndView mv = new ModelAndView();
         mv.setView(new MappingJackson2JsonView());
         mv.addObject("name", "hi");
         mv.addObject("age", "99");
+        return mv;
+    }
+
+    @Autowired
+    RoleMapper roleMapper;
+
+    @RequestMapping(value = "/sql", method = RequestMethod.GET)
+    public ModelAndView sql(String name) {
+        Role role = roleMapper.getRole(1L);
+        ModelAndView mv = new ModelAndView();
+        mv.setView(new MappingJackson2JsonView());
+        mv.addObject(role);
         return mv;
     }
 
